@@ -5,18 +5,30 @@ import moment from 'moment';
 
 const localizer = momentLocalizer(moment);
 
+const activity_periods = [
+    {
+        title: 'Today',
+        start: new Date(new Date().setHours(new Date().getHours() - 3)),
+        end: new Date(new Date().setHours(new Date().getHours() + 3)),
+    },
+    {
+        title: 'Point in Time Event',
+        start: new Date(),
+        end: new Date(),
+    },
+]
+
 class UserModal extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-
+            activity_periods
         }
     }
 
     render() {
 
-        let activity_periods = this.props.userDetails.activity_periods;
 
         return (
 
@@ -28,11 +40,18 @@ class UserModal extends Component {
                         <p className="text-center font-weight-bold">{this.props.userDetails.real_name}</p>
                         <Calendar
                             localizer={localizer}
-                            events={activity_periods}
+                            events={this.state.activity_periods}
                             startAccessor="start"
                             endAccessor="end"
                             style={{ height: 500 }}
                         />
+                        {/* <Calendar
+                            localizer={localizer}
+                            events={this.props.userDetails.activity_periods}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ height: 500 }}
+                        /> */}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.props.closeModal}>Cancel</Button>
