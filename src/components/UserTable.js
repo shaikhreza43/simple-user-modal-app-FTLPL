@@ -8,9 +8,7 @@ class UserTable extends UserModal {
         this.state = {
             users: [],
             showModal: false,
-            temp: {
-                id: null
-            }
+            userData:{}
         }
     }
 
@@ -26,6 +24,13 @@ class UserTable extends UserModal {
         this.getUserDetailsFromMockApi();
     }
 
+    closeModal=()=>{
+        if (this.state.showModal === false)
+            this.setState({ showModal: true });
+        else if (this.state.showModal === true)
+            this.setState({ showModal: false });
+    }
+
     toggleModal = (id) => {
         debugger;
         if (this.state.showModal === false)
@@ -33,7 +38,8 @@ class UserTable extends UserModal {
         else if (this.state.showModal === true)
             this.setState({ showModal: false });
 
-      this.showSelectedUserActivity(id);
+        let userDetails = this.state.users.filter((user) => id === user.id);
+        this.setState({userData:userDetails[0]});
     }
 
     renderTd = () => {
@@ -41,7 +47,7 @@ class UserTable extends UserModal {
             return (
                 <tr key={index}>
                     <td>{user.id}</td>
-                    <td><a href="#" onClick={() => { this.toggleModal(user.id); this.state.temp.id = user.id }}>{user.real_name}</a></td>
+                    <td><a href="#" onClick={() =>this.toggleModal(user.id)}>{user.real_name}</a></td>
                     <td>{user.tz}</td>
                 </tr>
             )
@@ -50,32 +56,7 @@ class UserTable extends UserModal {
         return tdDiv;
     }
 
-    showSelectedUserActivity = (id) => {
-        debugger;
-
-        let userDetails = this.state.users.filter((user) => id === user.id);
-
-        // return (
-        // <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
-        //     <ModalHeader toggle={this.toggleModal}>Selected User Activity Details</ModalHeader>
-        //     <ModalBody>{userDetails[0]}</ModalBody>
-        //     <ModalFooter>
-        //         <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
-        //     </ModalFooter>
-        // </Modal>
-        // )
-
-        return <UserModal
-            isOpen={this.state.showModal}
-            toggle={this.toggleModal}
-            userDetails={userDetails}
-            onClick={this.toggleModal}
-        />
-    }
-
     render() {
-       
-         let userId = this.state.users.map((user, index) => user.id);
 
         return (
             <>
@@ -97,7 +78,13 @@ class UserTable extends UserModal {
 
                 </div>
 
-                {this.showSelectedUserActivity(userId)}
+                <UserModal
+                 openModal={this.state.showModal}
+                 id={this.state.id}
+                 userDetails={this.state.userData} 
+                 closeModal={this.closeModal}
+                />
+                
 
             </>
         )
