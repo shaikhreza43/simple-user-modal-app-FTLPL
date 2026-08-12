@@ -9,6 +9,4 @@ https://79a4a7a3-1373-4441-9fea-2a4b9ca78214.mock.pstmn.io/users
 #### Contact Info
 
 Name:- Shaikh Ahmed Reza,
-
-Contact No :- 7749082625 <br>
 Email:- shaikhreza43@gmail.com
